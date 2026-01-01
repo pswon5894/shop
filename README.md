@@ -41,6 +41,9 @@ context api(리액트 기본문법)와 redux 등 외부라이브러리 는 더 �
 context API 특징 state변경시 쓸데없는 것 까지 재렌더링 -> 성능 이슈
 나중에 컴포넌트 재사용이 어려움
 
+Redux 라이브러리를 사용하면 컴포넌트들이 props 없이 state 공유가능
+redux js파일을 만들어서 state를 보관해서 꺼내 사용
+
 ## Available Scripts
 
 In the project directory, you can run:
