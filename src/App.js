@@ -3,23 +3,46 @@ import 'bootstrap/dist/css/bootstrap.min.css';
 import Container from 'react-bootstrap/Container';
 import Nav from 'react-bootstrap/Nav';
 import Navbar from 'react-bootstrap/Navbar';
-import { createContext, useState } from 'react';
+import { createContext, useEffect, useState } from 'react';
 import data from './data.js'
 import { Routes, Route, Link, useNavigate, Outlet} from 'react-router-dom'
 import Detail from './routes/Detail.js'
 import axios from 'axios'
 import Cart from './routes/Cart.js'
+import { useQuery } from '@tanstack/react-query';
 
 export let Context1 = createContext();
 //Context는 state 보관함임
 
 function App() {
 
+  useEffect(()=> {
+    localStorage.setItem('watched', JSON.stringify([]))
+  }, [])
+
+  //누가 detail 페이지 접속하면 //Detail.js에 useEffect 만들기
+  // 그 페이지에 보이는 상품id 가져와서
+  // localStorage에 watched 항목에 추가
+
+  // let obj = {name: 'kim'}
+  // localStorage.setItem('data', JSON.stringify(obj))
+  // let 꺼낸거 = localStorage.getItem('data')
+
+  // console.log(JSON.parse(꺼낸거));
+
   let [shoes, setShoes] = useState(data)
   let [재고] = useState([10, 11, 12])
-
   let navigate = useNavigate();
   //훅 , 유용한것이 들어있는 함수
+
+  let result = useQuery({
+    queryKey: ['getName'],
+    // refetchOnWindowFocus: false, //창으로 복귀시 ajax 요청 재전송 x
+    queryFn: () => 
+      axios.get('https://codingapple1.github.io/userdata.json')
+      .then(a => a.data)
+  })
+  //useEffect + axios 안쓰고 이걸 쓰는 이유, result에 실시간으로 ajax 상태가 저장, 상태체크 쉬움
 
   return (
     <div className="App">
@@ -30,6 +53,12 @@ function App() {
           <Nav className="me-auto">
             <Nav.Link onClick={()=>{ navigate('/') }}>Home</Nav.Link>
             <Nav.Link onClick={()=>{ navigate('/detail') }}>Detail</Nav.Link>
+          </Nav>
+          <Nav className="ms-auto">
+            {result.isPending && '로딩중'}
+            {result.isError && '에러남'}
+            {result.isSuccess && result.data.name}
+
           </Nav>
         </Container>
       </Navbar>

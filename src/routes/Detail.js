@@ -4,6 +4,10 @@ import styled from 'styled-components'
 import Nav from 'react-bootstrap/Nav';
 
 import {Context1} from './../App.js'
+import { addItem } from "./store.js";
+import { useDispatch } from "react-redux";
+import { useLike } from "../hooks/like.js";
+import axios from "axios";
 
 let YellowBtn = styled.button`
   background : ${props => props.bg};
@@ -25,8 +29,41 @@ function Detail(props){
 
   let [count, setCount] = useState(0)
   let {id} = useParams();
+  // id = parseInt(id)
+  let 찾은상품 = props.shoes.find(x => x.id == id);
   let [alert, setAlert] = useState(true)
   let [탭, 탭변경] = useState(0)
+  let dispatch = useDispatch()
+
+
+//   서버에서 이름을 가져와서 html에 보여주는 코드를 작성
+// 하지만 서버가 없기 때문에 public 폴더에 username.json 파일을 만들고
+// 파일엔 "Kim" 이라는 단어하나를 저장
+// /username.json으로 GET 요청시 "Kim"을 가져올 수 있음
+
+  // let [username, setUsername] =useState('');
+
+  // useEffect(()=>{
+  //   axios.get('/username.json').then((r) =>{
+  //     console.log(r.data)
+  //     setUsername(r.data)
+  //   })
+  // }, [])
+
+  
+  useEffect(()=>{
+    
+    // console.log(찾은상품.id);
+    let 꺼낸거 = localStorage.getItem('watched')
+    꺼낸거 = JSON.parse(꺼낸거)
+    꺼낸거.push(찾은상품.id) //array에 자료추가
+    
+    꺼낸거 = new Set(꺼낸거) //array에서 중복제거, set 자료형
+    꺼낸거 = Array.from(꺼낸거)
+    localStorage.setItem('watched', JSON.stringify(꺼낸거))
+  // 그 페이지에 보이는 상품id 가져와서
+  // localStorage에 watched 항목에 추가
+  }, [])
 
   // let [num, setNum] = useState(' ')
   // useState( () => {
@@ -58,6 +95,8 @@ function Detail(props){
 
   // useEffect안에 있는 코드는 html 렌더링 후에 동작, 느린작업어 넣어둔다면 어떨까?, 서버에서 데이터 가저오는 작업, 타이머 장착
 
+  
+
   return(
     <div className="container">
       {
@@ -74,16 +113,18 @@ function Detail(props){
 
       {count}
       <button onClick={() => { setCount(count+1) }}>버튼</button>
-   
+  
   <div className="row">
     <div className="col-md-6">
-      <img src="https://codingapple1.github.io/shop/shoes1.jpg" width="100%" />
+      <img src={'https://codingapple1.github.io/shop/shoes'+(찾은상품.id+1) +'.jpg'} width="100%" />
     </div>
     <div className="col-md-6">
-      <h4 className="pt-5">{props.shoes[id].title}</h4>
-      <p>{props.shoes[id].content}</p>
-      <p>{props.shoes[id].price}원</p>
-      <button className="btn btn-danger">주문하기</button> 
+      <h4 className="pt-5">{찾은상품.title}</h4>
+      <p>{찾은상품.content}</p>
+      <p>{찾은상품.price}원</p>
+      <button className="btn btn-danger" onClick={() => {
+        dispatch(addItem( {id : 1, name : 'Red Knit', count : 1})) //상세페이지에 따라 바뀌개 구현, 추가된 상품은 숫자만 늘어나게 구현 필요
+      }}>주문하기</button> 
     </div>
 
     <Nav variant="tabs" defaultActiveKey="link0">
@@ -122,9 +163,21 @@ function TabContent({탭}){
   }, [탭])
   //리액트 18 의 automatic batching 기능으로 근접한 state변경함수를 변경마다가 아닌 변경이 다되고 나서 마지막에 재렌더링 하기 때문에 시간딜레이로 따로 돌리는 것임
 
+  // let [like, setLike] =useState(0)
+  // function addLike(){
+  //   setLike(a=>a+1)
+  // }
+  let [like, addLike] = useLike()
+      
   return (
     <div className={`start ` + fade }>
       {[<div>내용0</div>, <div>내용1</div>, <div>내용2</div>][탭]}
+
+      {/* {like} <span onClick={()=>{setLike(like + 1)}}>♥</span> */}
+      {/* {like} <span onClick={()=>{setLike((a)=>{return a + 1}) }}>♥</span> */}
+      {/* {like} <span onClick={()=>{setLike((a)=> a + 1) }}>♥</span> */}
+      {like} <span onClick={()=>{addLike() }}>♥</span>
+
     </div>
   )
 }
