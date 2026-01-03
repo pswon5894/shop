@@ -11,6 +11,7 @@ styled-component로 css가 아닌 js에서 스타일 꾸미는 방법
 리액트 라이프 사이클에 hook을 걸어서 mount, update, unmount 에서 작동 시킬수 있다
 //훅 , 유용한것이 들어있는 함수
 
+```
 useEffect(() => {
     setTimeout(()=> {setAlert(false)}, 2000)
   }, [])
@@ -26,7 +27,7 @@ useEffect(() => {
   // }, [])
 
   // unmount시 1회 코드 실행
-
+```
 
   // useEffect안에 있는 코드는 html 렌더링 후에 동작, 느린작업어 넣어둔다면 어떨까?, 서버에서 데이터 가저오는 작업, 타이머 장착
 
@@ -56,7 +57,7 @@ redux의 state 변경하는 법
 리액트 자주쓰는 if문 작성패턴 5가지
 
 1.컴포넌트 안에서 쓰는 if/else
-
+```
 function Component() {
   if ( true ) {
     return <p>참이면 보여줄 HTML</p>;
@@ -64,6 +65,7 @@ function Component() {
     return null;
   }
 }
+```
 컴포넌트에서 JSX를 조건부로 보여주고 싶을때.
 
 자바스크립트 if문은 return () 안의 JSX 내에서는 사용 불가능
@@ -87,9 +89,11 @@ function Component() {
 
 3. && 연산자로 if 역할 대신하기
 
+```
 true && '안녕';
 false && '안녕';
 true && false && '안녕';
+```
 
 맨 윗 코드는 '안녕'이 남고
 중간 코드는 false가 남고
@@ -97,7 +101,7 @@ true && false && '안녕';
 
 
  && 연산자로 축약
-
+```
 function Component() {
   return (
     <div>
@@ -117,7 +121,7 @@ function Component() {
     </div>
   )
 }
-
+```
 4. switch / case 조건문
 
 이것도 기본 문법인데 if문이 중첩해서 여러개 달려있는 경우에 가끔 씁니다.
@@ -125,7 +129,7 @@ function Component() {
  
 
  
-
+```
 function Component2(){
   var user = 'seller';
   if (user === 'seller'){
@@ -136,11 +140,12 @@ function Component2(){
     return <h4>그냥 로그인</h4>
   }
 }
+```
 ▲ if문을 저렇게 연달아 여러개 써야되는 상황들이 있으면 
 
 자바스크립트 switch 문법을 이용하면 괄호를 조금 더 줄일 수 있습니다. 
 
-
+```
 function Component2(){
   var user = 'seller';
   switch (user){
@@ -152,6 +157,7 @@ function Component2(){
       return <h4>그냥 로그인</h4>
   }
 }
+```
 ▲ switch 문법 어떻게 쓰냐면 
  
 1. switch (검사할변수){} 이거부터 작성하고
@@ -190,7 +196,7 @@ if문 여러개 혹은 삼항연산자 여러개를 작성해야겠죠? 근데 �
 이번엔 if문이 아니라 자바스크립트 object 자료형에 내가 보여주고 싶은 HTML을 다 담습니다.
 
  
-
+```
 function Component() {
   var 현재상태 = 'info';
   return (
@@ -205,8 +211,9 @@ function Component() {
 
     </div>
   )
-} 
-▲ 원래 JSX 상에서 html 태그들은 저렇게 object에 담든, array에 담든 아무 상관없습니다.
+}
+```
+▲ 원래 JSX 상에서 html 태그들은 저렇게 object에 담든, array에 담든 아무 상관없음.
 
 암튼 이렇게 object 자료형으로 HTML을 다 정리해서 담은 다음
 
@@ -227,7 +234,7 @@ function Component() {
 혹은 변수에 저장해서 써도 깔끔해질 것 같긴 합니다 
 
  
-
+```
 var 탭UI = { 
   info : <p>상품정보</p>,
   shipping : <p>배송관련</p>,
@@ -244,6 +251,7 @@ function Component() {
     </div>
   )
 } 
+```
 
 localStorage는 key: value 형태로 저장, 삭제 전까지 안날라감
 session storage 휘발성 저장, 껏다 키면 날라감
@@ -274,6 +282,18 @@ ios, android 앱으로 발행 가능 pwa builder
 //use 붙은 것들은 custom hook이라고 부른다
 //useState 이런 코드들은 항상 컴포넌트 함수 안에만 얌전히 적어야합니다.
 //실수로 html 안에 넣거나 if문 안에 넣거나 그러면 큰일나기 때문에 그런 상황을 방지하기 위해서
+
+- FileReader API 
+- 로컬스토리지
+- IndexedDB
+- Web worker
+- Geolocation
+- Canvas
+- drag & drop & touch 이벤트 
+- fetch API
+- CSS grid, flex 레이아웃  
+- Web audio/video
+등 브라우저 기본 기능
 
 ## Available Scripts
 
