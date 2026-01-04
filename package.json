@@ -2,7 +2,7 @@
   "name": "shop",
   "version": "0.1.0",
   "private": true,
-  "homepage": "https://pswon5894.github.io/shop/",
+  "homepage": "https://pswon5894.github.io",
   "dependencies": {
     "@reduxjs/toolkit": "^2.11.2",
     "@tanstack/react-query": "^5.90.16",
